@@ -1,0 +1,54 @@
+services:
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: osopags
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+
+  engine:
+    build: ./core/engine
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - ./core/engine:/usr/src/app
+      - /usr/src/app/node_modules
+
+  service-analytics:
+    build: ./core/service-analytics
+    ports:
+      - "3001:3001"
+    depends_on:
+      - db
+      - redis
+    environment:
+      DATABASE_URL: postgres://user:password@db:5432/osopags
+      REDIS_URL: redis://redis:6379
+    volumes:
+      - ./core/service-analytics:/usr/src/app
+      - /usr/src/app/node_modules
+
+  api-gateway:
+    build: ./core/api-gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - service-analytics
+    volumes:
+      - ./core/api-gateway:/usr/src/app
+      - /usr/src/app/node_modules
+
+volumes:
+  db_data:
