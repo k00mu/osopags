@@ -2,26 +2,32 @@ services:
   db:
     image: postgres:latest
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: osopags
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
     ports:
-      - "5432:5432"
+      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
     volumes:
       - db_data:/var/lib/postgresql/data
+      - ./core/db/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   redis:
     image: redis:latest
+    environment:
+      - REDIS_PORT=${REDIS_PORT}
     ports:
-      - "6379:6379"
+      - "${REDIS_PORT}:${REDIS_PORT}"
 
   engine:
     build: ./core/engine
     ports:
-      - "3000:3000"
+      - "${ENGINE_PORT}:${ENGINE_PORT}"
     depends_on:
       - db
       - redis
+    environment:
+      - ENGINE_PORT=${ENGINE_PORT}
     volumes:
       - ./core/engine:/usr/src/app
       - /usr/src/app/node_modules
@@ -29,13 +35,14 @@ services:
   service-analytics:
     build: ./core/service-analytics
     ports:
-      - "3001:3001"
+      - "${SERVICE_ANALYTICS_PORT}:${SERVICE_ANALYTICS_PORT}"
     depends_on:
       - db
       - redis
     environment:
-      DATABASE_URL: postgres://user:password@db:5432/osopags
-      REDIS_URL: redis://redis:6379
+      - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:${POSTGRES_PORT}/${POSTGRES_DB}
+      - REDIS_URL=redis://redis:${REDIS_PORT}
+      - SERVICE_ANALYTICS_PORT=${SERVICE_ANALYTICS_PORT}
     volumes:
       - ./core/service-analytics:/usr/src/app
       - /usr/src/app/node_modules
@@ -43,9 +50,14 @@ services:
   api-gateway:
     build: ./core/api-gateway
     ports:
-      - "8080:8080"
+      - "${API_GATEWAY_PORT}:${API_GATEWAY_PORT}"
     depends_on:
+      - engine
       - service-analytics
+    environment:
+      - API_GATEWAY_PORT=${API_GATEWAY_PORT}
+      - ENGINE_PORT=${ENGINE_PORT}
+      - SERVICE_ANALYTICS_PORT=${SERVICE_ANALYTICS_PORT}
     volumes:
       - ./core/api-gateway:/usr/src/app
       - /usr/src/app/node_modules

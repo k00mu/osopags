@@ -2,7 +2,7 @@ import "reflect-metadata";
 import express from 'express';
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.SERVICE_ANALYTICS_PORT || 3001;
 
 app.use(express.json());
 

@@ -7,5 +7,5 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 8080
+EXPOSE ${API_GATEWAY_PORT}
 CMD ["npm", "start"]

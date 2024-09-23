@@ -9,5 +9,5 @@ COPY . .
 
 RUN npm run build
 
-EXPOSE 3000
+EXPOSE ${WEB_PORT}
 CMD ["npm", "start"]

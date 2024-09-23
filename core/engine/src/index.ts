@@ -1,26 +1,12 @@
 import "reflect-metadata";
-import { DataSource } from "typeorm";
 import express from "express";
+import AppDataSource from "./data-source";
 import { GameProject } from "./entity/GameProject";
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.ENGINE_PORT || 3000;
 
 app.use(express.json());
-
-const AppDataSource = new DataSource({
-  type: "postgres",
-  host: "db",
-  port: 5432,
-  username: "user",
-  password: "password",
-  database: "osopags",
-  synchronize: true,
-  logging: false,
-  entities: [GameProject],
-  migrations: [],
-  subscribers: [],
-});
 
 AppDataSource.initialize()
   .then(async () => {

@@ -9,5 +9,5 @@ COPY . .
 
 RUN npm run build
 
-EXPOSE 3001
+EXPOSE ${SERVICE_ANALYTICS_PORT}
 CMD ["npm", "start"]
