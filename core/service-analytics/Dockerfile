@@ -1,13 +1,12 @@
-FROM node:14
+FROM denoland/deno:alpine
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
-COPY package*.json ./
-RUN npm install
+COPY . /app
 
-COPY . .
+RUN deno install --entrypoint ./src/main.ts
 
-RUN npm run build
+RUN deno cache ./src/main.ts
 
 EXPOSE ${SERVICE_ANALYTICS_PORT}
-CMD ["npm", "start"]
+CMD [ "deno", "task", "dev" ]

@@ -1,11 +1,12 @@
-FROM node:14
+FROM denoland/deno:alpine
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
-COPY package*.json ./
-RUN npm install
+COPY . /app
 
-COPY . .
+RUN deno install --entrypoint ./main.ts
+
+RUN deno cache ./main.ts
 
 EXPOSE ${API_GATEWAY_PORT}
-CMD ["npm", "start"]
+CMD [ "deno", "task", "dev" ]
