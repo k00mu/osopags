@@ -8,7 +8,7 @@ export const createAcquisition = async (req: Request, res: Response) => {
         return res.status(400).send({ message: "Invalid event type" });
     }
 
-    // TODO: validate gameProjectId with the engine service if necessary
+    // TODO: validate gameProjectId
 
     const userAcquisition = await Acquisition.create({
         eventType,
