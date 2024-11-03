@@ -1,16 +1,16 @@
 import { DataTypes, Model } from "sequelize";
 import { default as sequelize } from "../db.ts";
 
-class GameProject extends Model {}
+class Project extends Model {}
 
-GameProject.init({
+Project.init({
     name: DataTypes.STRING,
     description: DataTypes.STRING,
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE,
 }, {
     sequelize,
-    modelName: "GameProject",
+    modelName: "Project",
 });
 
-export default GameProject;
+export default Project;

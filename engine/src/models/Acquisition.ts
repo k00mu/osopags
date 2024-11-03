@@ -2,8 +2,8 @@ import { DataTypes, Model } from "sequelize";
 import { default as sequelize } from "../db.ts";
 
 enum EventType {
-    INSTALL = 'install',
-    UNINSTALL = 'uninstall',
+    INSTALL = "install",
+    UNINSTALL = "uninstall",
 }
 
 class Acquisition extends Model {}

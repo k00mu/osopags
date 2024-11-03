@@ -1,9 +1,6 @@
 {
-    "[typescript]": {
-        "editor.defaultFormatter": "denoland.vscode-deno"
-    },
     "deno.enablePaths": [
-        "./core"
+        "./engine"
     ],
     "deno.enable": true,
     "deno.lint": true,

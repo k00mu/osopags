@@ -10,7 +10,7 @@ services:
       - "${POSTGRES_PORT}:${POSTGRES_PORT}"
     volumes:
       - db_data:/var/lib/postgresql/data
-      - ./core/db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   redis:
     image: redis:latest
@@ -20,7 +20,7 @@ services:
       - "${REDIS_PORT}:${REDIS_PORT}"
 
   engine:
-    build: ./core/engine
+    build: ./engine
     ports:
       - "${ENGINE_PORT}:${ENGINE_PORT}"
     depends_on:
@@ -29,49 +29,11 @@ services:
     environment:
       - ENGINE_PORT=${ENGINE_PORT}
     # volumes:
-    #   - ./core/engine:/app
+    #   - ./engine:/app
     develop:
       watch:
         - action: sync
-          path: ./core/engine
-          target: /app
-
-  service-analytics:
-    build: ./core/service-analytics
-    ports:
-      - "${SERVICE_ANALYTICS_PORT}:${SERVICE_ANALYTICS_PORT}"
-    depends_on:
-      - db
-      - redis
-    environment:
-      - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:${POSTGRES_PORT}/${POSTGRES_DB}
-      - REDIS_URL=redis://redis:${REDIS_PORT}
-      - SERVICE_ANALYTICS_PORT=${SERVICE_ANALYTICS_PORT}
-    # volumes:
-    #   - ./core/service-analytics:/app
-    develop:
-      watch:
-        - action: sync
-          path: ./core/service-analytics
-          target: /app
-
-  api-gateway:
-    build: ./core/api-gateway
-    ports:
-      - "${API_GATEWAY_PORT}:${API_GATEWAY_PORT}"
-    depends_on:
-      - engine
-      - service-analytics
-    environment:
-      - API_GATEWAY_PORT=${API_GATEWAY_PORT}
-      - ENGINE_PORT=${ENGINE_PORT}
-      - SERVICE_ANALYTICS_PORT=${SERVICE_ANALYTICS_PORT}
-    # volumes:
-    #   - ./core/api-gateway:/app
-    develop:
-      watch:
-        - action: sync
-          path: ./core/api-gateway
+          path: ./engine
           target: /app
 
 volumes:
