@@ -19,6 +19,7 @@
   },
   "imports": {
     "@std/assert": "jsr:@std/assert@1",
+    "@std/crypto": "jsr:@std/crypto@^1.0.3",
     "cors": "npm:cors@^2.8.5",
     "express": "npm:express@^4.21.1",
     "pg": "npm:pg@^8.13.0",

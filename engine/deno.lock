@@ -2,6 +2,7 @@
   "version": "4",
   "specifiers": {
     "jsr:@std/assert@1": "1.0.6",
+    "jsr:@std/crypto@^1.0.3": "1.0.3",
     "jsr:@std/internal@^1.0.4": "1.0.4",
     "npm:cors@^2.8.5": "2.8.5",
     "npm:express@^4.21.1": "4.21.1",
@@ -16,6 +17,9 @@
       "dependencies": [
         "jsr:@std/internal"
       ]
+    },
+    "@std/crypto@1.0.3": {
+      "integrity": "a2a32f51ddef632d299e3879cd027c630dcd4d1d9a5285d6e6788072f4e51e7f"
     },
     "@std/internal@1.0.4": {
       "integrity": "62e8e4911527e5e4f307741a795c0b0a9e6958d0b3790716ae71ce085f755422"
@@ -619,6 +623,7 @@
   "workspace": {
     "dependencies": [
       "jsr:@std/assert@1",
+      "jsr:@std/crypto@^1.0.3",
       "npm:cors@^2.8.5",
       "npm:express@^4.21.1",
       "npm:pg-hstore@^2.3.4",

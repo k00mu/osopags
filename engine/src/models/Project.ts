@@ -6,6 +6,7 @@ class Project extends Model {}
 Project.init({
     name: DataTypes.STRING,
     description: DataTypes.STRING,
+    apiKey: DataTypes.STRING,
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE,
 }, {

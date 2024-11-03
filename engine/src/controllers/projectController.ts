@@ -1,11 +1,14 @@
 import { Request, Response } from "express";
+import { generateApiKey } from "../utils/key.ts";
 import Project from "../models/Project.ts";
 
 export const createProject = async (req: Request, res: Response) => {
     const { name, description } = req.body;
+    const apiKey = generateApiKey();
     const gameProject = await Project.create({
         name,
         description,
+        apiKey,
         createdAt: new Date(),
         updatedAt: new Date(),
     });
@@ -48,4 +51,21 @@ export const deleteProject = async (req: Request, res: Response) => {
 
     await project.destroy();
     res.status(204).send();
+};
+
+export const updateApiKey = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const newApiKey = generateApiKey();
+
+    const [updated] = await Project.update(
+        { apiKey: newApiKey, updatedAt: new Date() },
+        { where: { id } },
+    );
+
+    if (!updated) {
+        return res.status(404).send({ message: "Project not found" });
+    }
+
+    const updatedProject = await Project.findByPk(id);
+    res.status(200).send(updatedProject);
 };
