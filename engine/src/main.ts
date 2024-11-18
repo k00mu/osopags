@@ -20,13 +20,13 @@ if (import.meta.main) {
         .catch((err) => console.log("Error: " + err));
     Database.sync();
 
-    app.get("/", (_req: any, res: any) => {
+    app.get("/api", (_req: any, res: any) => {
         res.send("Engine Service is running");
     });
 
-    app.use("/projects", projectRoutes);
-    app.use("/acquisitions", acquisitionRoutes);
-    app.use("/events", eventRoutes);
+    app.use("/api/projects", projectRoutes);
+    app.use("/api/acquisitions", acquisitionRoutes);
+    app.use("/api/events", eventRoutes);
 
     app.listen(PORT, () => {
         console.log(`Engine Service is running on port ${PORT}`);
