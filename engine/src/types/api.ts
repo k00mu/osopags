@@ -12,8 +12,8 @@ export interface GetUserRequestParams {
 }
 
 export interface UpsertGameClientRequestBody {
-    name: string;
-    namespace: string;
+    gameName: string;
+    gameNamespace: string;
 }
 
 export interface GetGameClientRequestParams {
@@ -91,14 +91,14 @@ export interface GetUserResponse {
 
 export interface UpsertGameClientResponse {
     id: string;
-    name: string;
-    namespace: string;
+    gameName: string;
+    gameNamespace: string;
 }
 
 export interface GetGameClientResponse {
     id: string;
-    name: string;
-    namespace: string;
+    gameName: string;
+    gameNamespace: string;
 }
 
 export interface AuthUserResponse {

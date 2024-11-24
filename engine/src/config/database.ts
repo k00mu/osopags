@@ -29,6 +29,9 @@ export const initDatabase = async () => {
         // Import associations
         await import("@/models/models.ts");
 
+        // Add this line to create tables
+        await sequelize.sync();
+
         console.log("Database synchronized successfully.");
     } catch (error) {
         console.error("Unable to connect to the database:", error);

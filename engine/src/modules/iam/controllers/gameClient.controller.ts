@@ -22,19 +22,19 @@ export class GameClientController {
         next: NextFunction,
     ) {
         try {
-            const { name, namespace } = req.body;
+            const { gameName, gameNamespace } = req.body;
 
             const gameClient = await GameClient.create({
-                name,
-                namespace,
+                gameName,
+                gameNamespace,
             });
 
             const response: SuccessResponse<UpsertGameClientResponse> = {
                 status: "success",
                 data: {
                     id: gameClient.id,
-                    name: gameClient.name,
-                    namespace: gameClient.namespace,
+                    gameName: gameClient.gameName,
+                    gameNamespace: gameClient.gameNamespace,
                 },
             };
 
@@ -58,8 +58,8 @@ export class GameClientController {
                 status: "success",
                 data: gameClients.map((gameClient) => ({
                     id: gameClient.id,
-                    name: gameClient.name,
-                    namespace: gameClient.namespace,
+                    gameName: gameClient.gameName,
+                    gameNamespace: gameClient.gameNamespace,
                 })),
             };
 
@@ -87,8 +87,8 @@ export class GameClientController {
                 status: "success",
                 data: {
                     id: gameClient.id,
-                    name: gameClient.name,
-                    namespace: gameClient.namespace,
+                    gameName: gameClient.gameName,
+                    gameNamespace: gameClient.gameNamespace,
                 },
             };
 
@@ -109,7 +109,7 @@ export class GameClientController {
     ) {
         try {
             const { id } = req.params;
-            const { name, namespace } = req.body;
+            const { gameName, gameNamespace } = req.body;
 
             const gameClient = await GameClient.findByPk(id);
 
@@ -118,16 +118,16 @@ export class GameClientController {
             }
 
             const updatedGameClient = await gameClient.update({
-                name,
-                namespace,
+                gameName,
+                gameNamespace,
             });
 
             const response: SuccessResponse<UpsertGameClientResponse> = {
                 status: "success",
                 data: {
                     id: updatedGameClient.id,
-                    name: updatedGameClient.name,
-                    namespace: updatedGameClient.namespace,
+                    gameName: updatedGameClient.gameName,
+                    gameNamespace: updatedGameClient.gameNamespace,
                 },
             };
 

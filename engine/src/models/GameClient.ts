@@ -3,8 +3,8 @@ import { sequelize } from "@/config/database.ts";
 
 interface GameClientAttributes {
     id: string;
-    name: string;
-    namespace: string;
+    gameName: string;
+    gameNamespace: string;
     createdAt: Date;
     updatedAt: Date;
 }
@@ -15,8 +15,8 @@ interface GameClientCreationAttributes
 export class GameClient
     extends Model<GameClientAttributes, GameClientCreationAttributes> {
     declare id: string;
-    declare name: string;
-    declare namespace: string;
+    declare gameName: string;
+    declare gameNamespace: string;
     declare readonly createdAt: Date;
     declare readonly updatedAt: Date;
 }
@@ -28,11 +28,11 @@ GameClient.init(
             defaultValue: DataTypes.UUIDV4,
             primaryKey: true,
         },
-        name: {
+        gameName: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        namespace: {
+        gameNamespace: {
             type: DataTypes.STRING,
             allowNull: false,
         },
