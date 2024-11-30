@@ -1,5 +1,0 @@
-{
-  "imports": {
-    "sequelize": "npm:sequelize@^6.37.5"
-  }
-}
