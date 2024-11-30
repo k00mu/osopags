@@ -1,7 +1,7 @@
 import { User } from "./User.ts";
 import { GameClient } from "./GameClient.ts";
 import { Device } from "./Device.ts";
-import { TelemetryEvent } from "./TelemetryEvent.ts";
+import { Track } from "./Track.ts";
 import { Op } from "sequelize";
 
 // GameClient associations
@@ -11,9 +11,9 @@ GameClient.hasMany(Device, {
     onDelete: "CASCADE",
 });
 
-GameClient.hasMany(TelemetryEvent, {
+GameClient.hasMany(Track, {
     foreignKey: "gameClientId",
-    as: "telemetryEvents",
+    as: "tracks",
     onDelete: "CASCADE",
 });
 
@@ -23,9 +23,9 @@ User.hasMany(Device, {
     as: "devices",
 });
 
-User.hasMany(TelemetryEvent, {
+User.hasMany(Track, {
     foreignKey: "userId",
-    as: "telemetryEvents",
+    as: "tracks",
 });
 
 // Device associations
@@ -39,9 +39,9 @@ Device.belongsTo(User, {
     as: "user",
 });
 
-Device.hasMany(TelemetryEvent, {
+Device.hasMany(Track, {
     foreignKey: "deviceId",
-    as: "telemetryEvents",
+    as: "tracks",
 });
 
 // Add active scope to Device
@@ -53,20 +53,20 @@ Device.addScope("active", {
     },
 });
 
-// TelemetryEvent associations
-TelemetryEvent.belongsTo(GameClient, {
+// Track associations
+Track.belongsTo(GameClient, {
     foreignKey: "gameClientId",
     as: "gameClient",
 });
 
-TelemetryEvent.belongsTo(User, {
+Track.belongsTo(User, {
     foreignKey: "userId",
     as: "user",
 });
 
-TelemetryEvent.belongsTo(Device, {
+Track.belongsTo(Device, {
     foreignKey: "deviceId",
     as: "device",
 });
 
-export { Device, GameClient, TelemetryEvent, User };
+export { Device, GameClient, Track, User };

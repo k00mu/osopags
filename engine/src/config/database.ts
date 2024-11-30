@@ -24,7 +24,7 @@ export const initDatabase = async () => {
         (await import("@/models/GameClient.ts")).GameClient;
         (await import("@/models/User.ts")).User;
         (await import("@/models/Device.ts")).Device;
-        (await import("@/models/TelemetryEvent.ts")).TelemetryEvent;
+        (await import("../models/Track.ts")).Track;
 
         // Import associations
         await import("@/models/models.ts");

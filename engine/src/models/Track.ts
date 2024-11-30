@@ -1,31 +1,28 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from "@/config/database.ts";
 
-interface TelemetryEventAttributes {
+interface TrackAttributes {
     id: string;
     gameClientId: string;
     deviceId: string;
-    userId: string | null;
     eventType: string;
-    eventData: Record<string, unknown>;
+    eventData: Record<string, unknown> | null;
     timestamp: Date;
 }
 
-interface TelemetryEventCreationAttributes
-    extends Optional<TelemetryEventAttributes, "id" | "timestamp"> {}
+interface TrackCreationAttributes
+    extends Optional<TrackAttributes, "id" | "timestamp"> {}
 
-export class TelemetryEvent
-    extends Model<TelemetryEventAttributes, TelemetryEventCreationAttributes> {
+export class Track extends Model<TrackAttributes, TrackCreationAttributes> {
     declare id: string;
     declare gameClientId: string;
     declare deviceId: string;
-    declare userId: string | null;
     declare eventType: string;
-    declare eventData: Record<string, unknown>;
+    declare eventData: Record<string, unknown> | null;
     declare timestamp: Date;
 }
 
-TelemetryEvent.init(
+Track.init(
     {
         id: {
             type: DataTypes.UUID,
@@ -48,21 +45,13 @@ TelemetryEvent.init(
                 key: "id",
             },
         },
-        userId: {
-            type: DataTypes.UUID,
-            allowNull: true,
-            references: {
-                model: "users",
-                key: "id",
-            },
-        },
         eventType: {
             type: DataTypes.STRING,
             allowNull: false,
         },
         eventData: {
             type: DataTypes.JSONB,
-            allowNull: false,
+            allowNull: true,
         },
         timestamp: {
             type: DataTypes.DATE,
@@ -72,7 +61,7 @@ TelemetryEvent.init(
     },
     {
         sequelize,
-        tableName: "telemetry_events",
+        tableName: "tracks",
         timestamps: false,
     },
 );

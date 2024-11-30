@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import { AppError, TooManyRequestsError } from "../types/error.ts";
-import { ErrorMonitor } from "../modules/monitoring/errorMonitor.controller.ts";
 
 interface ErrorResponse {
     status: string;
@@ -17,8 +16,6 @@ export const errorHandler = (
     res: Response<ErrorResponse>,
     _next: NextFunction,
 ) => {
-    ErrorMonitor.getInstance().trackError(err);
-
     // Log error details
     console.error("Error:", {
         name: err.name,

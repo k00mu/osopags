@@ -38,9 +38,10 @@ export interface LinkDeviceToUserRequestBody {
     isAnonymous: boolean;
 }
 
-export interface EventRequest {
+export interface CreateTrackRequest {
     eventType: string;
-    eventData: Record<string, unknown>;
+    eventData: Record<string, unknown> | null;
+    timestamp?: Date;
 }
 
 export interface TelemetryEvent {
@@ -109,17 +110,16 @@ export interface AuthDeviceResponse {
     deviceToken: string;
 }
 
-export interface TelemetryEventResponse {
+export interface CreateTrackResponse {
     id: string;
     gameClientId: string;
-    userId: string | null;
     deviceId: string;
     eventType: string;
-    eventData: Record<string, unknown>;
+    eventData: Record<string, unknown> | null;
     timestamp: Date;
 }
 
-export interface TelemetryEventStats {
+export interface TrackEventStats {
     eventType: string;
     count: number;
     firstSeen: Date;

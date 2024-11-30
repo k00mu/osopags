@@ -2,37 +2,37 @@ import { NextFunction, Request, Response } from "express";
 import { col, fn, Op } from "sequelize";
 
 // Models
-import { TelemetryEvent } from "@/models/TelemetryEvent.ts";
+import { Track } from "../../../models/Track.ts";
 
 // Contracts
 import {
-    EventRequest,
+    CreateTrackRequest,
+    CreateTrackResponse,
     SuccessResponse,
-    TelemetryEventResponse,
-    TelemetryEventStats,
+    TrackEventStats,
 } from "@/types/api.ts";
 
 // Errors
 import { NotFoundError, ServiceUnavailableError } from "@/types/error.ts";
 import { Device } from "@/models/Device.ts";
 
-export class TelemetryController {
+export class TrackController {
     /**
-     * Creates a new telemetry event.
-     * @route POST /telemetry
+     * Creates a new track.
+     * @route POST /tracks
      * @access Protected
      */
     static async create(
         req: Request<
             Record<string, never>,
-            SuccessResponse<TelemetryEventResponse>,
-            EventRequest
+            SuccessResponse<CreateTrackResponse>,
+            CreateTrackRequest
         >,
-        res: Response<SuccessResponse<TelemetryEventResponse>>,
+        res: Response<SuccessResponse<CreateTrackResponse>>,
         next: NextFunction,
     ) {
         try {
-            const { eventType, eventData } = req.body;
+            const { eventType, eventData, timestamp } = req.body;
             const { id } = req.deviceData!;
 
             const device = await Device.findByPk(id);
@@ -41,29 +41,27 @@ export class TelemetryController {
                 throw new NotFoundError("Device not found");
             }
 
-            const { gameClientId, userId } = device;
+            const { gameClientId } = device;
 
-            const event = await TelemetryEvent.create({
+            const event = await Track.create({
                 deviceId: id,
                 gameClientId,
-                userId: userId ?? null,
                 eventType,
                 eventData,
-                timestamp: new Date(),
+                timestamp: timestamp ?? new Date(),
             });
 
-            const response: SuccessResponse<TelemetryEventResponse> = {
+            const response: SuccessResponse<CreateTrackResponse> = {
                 status: "success",
                 data: {
                     id: event.id,
                     deviceId: event.deviceId,
                     gameClientId: event.gameClientId,
-                    userId: event.userId,
                     eventType: event.eventType,
-                    eventData: event.eventData,
+                    eventData: event.eventData ?? null,
                     timestamp: event.timestamp,
                 },
-                message: "Telemetry event created successfully",
+                message: "Track event created successfully",
             };
 
             res.status(201).json(response);
@@ -73,23 +71,23 @@ export class TelemetryController {
     }
 
     /**
-     * Retrieves telemetry events based on query parameters.
-     * @route GET /telemetry/events
+     * Retrieves tracks list based on query parameters.
+     * @route GET /tracks
      * @access Protected
      */
-    static async getEvents(
+    static async list(
         req: Request,
-        res: Response<SuccessResponse<TelemetryEventResponse[]>>,
+        res: Response<SuccessResponse<CreateTrackResponse[]>>,
         next: NextFunction,
     ) {
         try {
             res.status(200);
-            const { userId, gameClientId } = req.user!;
+            // const { userId, gameClientId } = req.user!;
             const { type, from, to } = req.query;
 
             const whereClause: any = {
-                userId,
-                gameClientId,
+                // userId,
+                // gameClientId,
             };
 
             if (type) {
@@ -106,28 +104,27 @@ export class TelemetryController {
                 }
             }
 
-            const events = await TelemetryEvent.findAll({
+            const events = await Track.findAll({
                 where: whereClause,
                 order: [["timestamp", "DESC"]],
                 limit: 100,
             });
 
-            const responseEvents: TelemetryEventResponse[] = events.map(
+            const responseEvents: CreateTrackResponse[] = events.map(
                 (event) => ({
                     id: event.id,
                     gameClientId: event.gameClientId,
                     deviceId: event.deviceId,
-                    userId: event.userId ?? null,
                     eventType: event.eventType,
-                    eventData: event.eventData,
+                    eventData: event.eventData ?? null,
                     timestamp: event.timestamp,
                 }),
             );
 
-            const response: SuccessResponse<TelemetryEventResponse[]> = {
+            const response: SuccessResponse<CreateTrackResponse[]> = {
                 status: "success",
                 data: responseEvents,
-                message: "Telemetry events retrieved successfully",
+                message: "Track events retrieved successfully",
             };
 
             res.status(200).json(response);
@@ -137,13 +134,13 @@ export class TelemetryController {
     }
 
     /**
-     * Retrieves telemetry event statistics.
-     * @route GET /telemetry/stats
+     * Retrieves track statistics.
+     * @route GET /tracks/stats
      * @access Protected
      */
-    static async getEventStats(
+    static async getStats(
         req: Request,
-        res: Response<SuccessResponse<TelemetryEventStats[]>>,
+        res: Response<SuccessResponse<TrackEventStats[]>>,
         next: NextFunction,
     ) {
         try {
@@ -165,7 +162,7 @@ export class TelemetryController {
                 }
             }
 
-            const stats = await TelemetryEvent.findAll({
+            const stats = await Track.findAll({
                 where: whereClause,
                 attributes: [
                     "eventType",
@@ -189,17 +186,17 @@ export class TelemetryController {
                 lastSeen: stat.get("lastSeen"),
             }));
 
-            const response: SuccessResponse<TelemetryEventStats[]> = {
+            const response: SuccessResponse<TrackEventStats[]> = {
                 status: "success",
                 data: responseStats,
-                message: "Telemetry event statistics retrieved successfully",
+                message: "Track statistics retrieved successfully",
             };
 
             res.status(200).json(response);
         } catch (_error) {
             next(
                 new ServiceUnavailableError(
-                    "Failed to retrieve event statistics",
+                    "Failed to retrieve track statistics",
                 ),
             );
         }
