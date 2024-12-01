@@ -2,6 +2,8 @@
 
 cd ~/osopags
 
+git restore .
+
 # Pull latest changes
 git pull
 
