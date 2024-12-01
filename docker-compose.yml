@@ -63,7 +63,7 @@ services:
       - "80:80"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf.template:ro
-      - ./scripts/start-nginx.sh:/scripts/start-nginx.sh:ro
+      - ./scripts/start-nginx.sh:/scripts/start-nginx.sh
     depends_on:
       - engine
       - web
