@@ -4,9 +4,8 @@ import { deviceAuthMiddleware } from "@/middleware/deviceAuth.ts";
 
 const router = express.Router();
 
-router.use(deviceAuthMiddleware);
-
-router.post("/tracks", TrackController.create);
+router.post("/tracks", deviceAuthMiddleware, TrackController.create);
 router.get("/tracks", TrackController.list);
+router.get("/tracks/stream", TrackController.streamList);
 
 export { router as analyticRouter };

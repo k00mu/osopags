@@ -14,17 +14,31 @@ export default function IndexPage(): React.ReactElement {
       });
   }, []);
 
-    return (<>
-      <h1>Welcome to Osopags Dashboard</h1>
-      <Link to="/create">Create Game Client</Link>
+  return (
+    <div>
+      <h1 className="text-2xl font-bold mb-6">Welcome to Osopags Dashboard</h1>
+
+      <Link
+        to="/create"
+        className="inline-block mb-4 text-blue-600 hover:text-blue-800"
+      >
+        Create Game Client
+      </Link>
+
       <p>Click on a Game Client list below to learn more.</p>
-      <div>
+
+      <div className="space-y-2">
         {gameClients.map((gameClient: GameClient) => (
           <div key={gameClient.id}>
-            <Link to={`/${gameClient.id}`}>{gameClient.gameName}</Link>
+            <Link
+              to={`/${gameClient.id}`}
+              className="text-blue-600 hover:text-blue-800"
+            >
+              {gameClient.gameName}
+            </Link>
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 }

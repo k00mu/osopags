@@ -2,7 +2,7 @@ import { ENV } from "@/config/env.ts";
 import express from "express";
 import cors from "cors";
 import { iamRouter } from "./modules/iam/iam.router.ts";
-import { analyticRouter } from "./modules/analytic/analytics.router.ts";
+import { analyticRouter } from "./modules/analytic/analytic.router.ts";
 import { errorHandler } from "@/middleware/errorHandler.ts";
 import { initDatabase } from "@/config/database.ts";
 
