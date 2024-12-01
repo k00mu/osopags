@@ -1,7 +1,8 @@
 {
   "version": "4",
   "specifiers": {
-    "npm:@deno/vite-plugin@1": "1.0.1_vite@5.4.11",
+    "npm:@deno/vite-plugin@1": "1.0.1_vite@5.4.11__@types+node@22.5.4_@types+node@22.5.4",
+    "npm:@deno/vite-plugin@^1.0.1": "1.0.1_vite@5.4.11__@types+node@22.5.4_@types+node@22.5.4",
     "npm:@types/node@*": "22.5.4",
     "npm:@types/react-dom@^18.3.1": "18.3.1",
     "npm:@types/react-router@^5.1.20": "5.1.20",
@@ -157,6 +158,12 @@
       "integrity": "sha512-w5drKBzKrUuV3xXfW+kkVxFpAlLELTwpLmN8Fwzw21wCew8SaR/AXPYbpUvIxdl8P61J52ufUez/kSalOD5sKA==",
       "dependencies": [
         "vite@5.4.11"
+      ]
+    },
+    "@deno/vite-plugin@1.0.1_vite@5.4.11__@types+node@22.5.4_@types+node@22.5.4": {
+      "integrity": "sha512-w5drKBzKrUuV3xXfW+kkVxFpAlLELTwpLmN8Fwzw21wCew8SaR/AXPYbpUvIxdl8P61J52ufUez/kSalOD5sKA==",
+      "dependencies": [
+        "vite@5.4.11_@types+node@22.5.4"
       ]
     },
     "@esbuild/aix-ppc64@0.21.5": {
@@ -687,6 +694,16 @@
         "rollup"
       ]
     },
+    "vite@5.4.11_@types+node@22.5.4": {
+      "integrity": "sha512-c7jFQRklXua0mTzneGW9QVyxFjUgwcihC4bXEtujIo2ouWCe1Ajt/amn2PCxYnhYfd5k09JX3SB7OYWFKYqj8Q==",
+      "dependencies": [
+        "@types/node",
+        "esbuild@0.21.5",
+        "fsevents",
+        "postcss",
+        "rollup"
+      ]
+    },
     "vite@6.0.1": {
       "integrity": "sha512-Ldn6gorLGr4mCdFnmeAOLweJxZ34HjKnDm4HGo6P66IEqTxQb36VEdFJQENKxWjupNfoIjvRUnswjn1hpYEpjQ==",
       "dependencies": [
@@ -699,5 +716,18 @@
     "yallist@3.1.1": {
       "integrity": "sha512-a4UGQaWPH59mOXUYnAG2ewncQS4i4F43Tv3JoAM+s2VDAmS9NsK8GpDMLrCHPksFT7h3K6TOoUNn2pb7RoXx4g=="
     }
+  },
+  "workspace": {
+    "dependencies": [
+      "npm:@deno/vite-plugin@^1.0.1",
+      "npm:@types/react-dom@^18.3.1",
+      "npm:@types/react-router@^5.1.20",
+      "npm:@types/react@^18.3.12",
+      "npm:@vitejs/plugin-react@^4.3.4",
+      "npm:react-dom@^18.3.1",
+      "npm:react-router@^7.0.1",
+      "npm:react@^18.3.1",
+      "npm:vite@^6.0.1"
+    ]
   }
 }

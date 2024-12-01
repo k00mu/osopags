@@ -29,42 +29,42 @@ export default function SignUpPage(): React.ReactElement {
     setLoading(true);
     setError(null);
 
-    try {
-      const response = await fetch(`${Deno.env.get("BASE_URL")}/v1/iam/users`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      try {
+        const response = await fetch(`/v1/iam/users`, {
+            method: "POST",
+            headers: {
+            "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+        });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to sign up");
-      }
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || "Failed to sign up");
+        }
 
-      // After successful signup, attempt to sign in
-      const signInResponse = await fetch("http://localhost/v1/iam/auth/user", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password,
-        }),
-      });
+        // After successful signup, attempt to sign in
+        const signInResponse = await fetch(`/v1/iam/auth/user`, {
+            method: "POST",
+            headers: {
+            "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+            email: formData.email,
+            password: formData.password,
+            }),
+        });
 
-      if (!signInResponse.ok) {
-        throw new Error("Failed to sign in after registration");
-      }
+        if (!signInResponse.ok) {
+            throw new Error("Failed to sign in after registration");
+        }
 
-      const { data } = await signInResponse.json();
-      // Store the token in localStorage
-      localStorage.setItem("userToken", data.userToken);
+        const { data } = await signInResponse.json();
+        // Store the token in localStorage
+        localStorage.setItem("userToken", data.userToken);
 
-      // Redirect to home page
-      navigate("/");
+        // Redirect to home page
+        navigate("/");
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
     } finally {

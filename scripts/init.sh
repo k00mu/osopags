@@ -7,7 +7,7 @@ PUBLIC_IP=$(curl -s -4 icanhazip.com)
 
 # Create .env file
 cat > .env << EOL
-BASE_URL=http://${PUBLIC_IP}
+OSOPAGS_BASE_URL=http://${PUBLIC_IP}
 
 # Ports
 ENGINE_PORT=3000

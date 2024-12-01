@@ -13,12 +13,12 @@ export default function GameClientPage(): React.ReactElement {
   useEffect(() => {
     Promise.all([
       // Fetch game client details
-      fetch(`${Deno.env.get("BASE_URL")}/v1/iam/clients/${gameClientId}`)
+      fetch(`/v1/iam/clients/${gameClientId}`)
         .then(async (res: Response) => await res.json())
         .then((json: SuccessResponse<GameClient>) => setGameClient(json.data)),
 
       // Fetch tracked events
-      fetch(`${Deno.env.get("BASE_URL")}/v1/analytic/tracks?gameClientId=${gameClientId}`)
+      fetch(`/v1/analytic/tracks?gameClientId=${gameClientId}`)
         .then(async (res: Response) => await res.json())
         .then((json: SuccessResponse<Track[]>) => setTracks(json.data))
     ])
@@ -27,7 +27,7 @@ export default function GameClientPage(): React.ReactElement {
 
     // SSE connection
     console.log('Establishing SSE connection...');
-    const eventSource = new EventSource(`${Deno.env.get("BASE_URL")}/v1/analytic/tracks/stream?gameClientId=${gameClientId}`);
+    const eventSource = new EventSource(`/v1/analytic/tracks/stream?gameClientId=${gameClientId}`);
 
     eventSource.onopen = () => {
       console.log('SSE connection opened');
@@ -56,7 +56,7 @@ export default function GameClientPage(): React.ReactElement {
     }
 
     try {
-      const response = await fetch(`${Deno.env.get("BASE_URL")}/v1/iam/clients/${gameClientId}`, {
+      const response = await fetch(`/v1/iam/clients/${gameClientId}`, {
         method: 'DELETE',
       });
 
