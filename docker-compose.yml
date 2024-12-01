@@ -67,7 +67,7 @@ services:
     depends_on:
       - engine
       - web
-    entrypoint: /bin/sh -c "/scripts/start-nginx.sh"
+    command: /bin/sh -c "chmod +x /scripts/start-nginx.sh && /scripts/start-nginx.sh"
 
 volumes:
   db_data:
