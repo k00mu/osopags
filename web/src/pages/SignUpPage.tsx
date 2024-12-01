@@ -30,7 +30,7 @@ export default function SignUpPage(): React.ReactElement {
     setError(null);
 
     try {
-      const response = await fetch("http://localhost/v1/iam/users", {
+      const response = await fetch(`${Deno.env.get("BASE_URL")}/v1/iam/users`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -14,7 +14,7 @@ export default function CreateGameClientPage(): React.ReactElement {
     try {
       const gameNamespace = gameName.toLowerCase().replace(/ /g, "-");
 
-      const response = await fetch("http://localhost/v1/iam/clients", {
+      const response = await fetch(`${Deno.env.get("BASE_URL")}/v1/iam/clients`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -28,7 +28,7 @@ export default function SignInPage(): React.ReactElement {
     setError(null);
 
     try {
-      const response = await fetch("http://localhost/v1/iam/auth/user", {
+      const response = await fetch(`${Deno.env.get("BASE_URL")}/v1/iam/auth/user`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

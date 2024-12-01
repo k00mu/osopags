@@ -6,7 +6,7 @@ export default function IndexPage(): React.ReactElement {
   const [gameClients, setGameClients] = useState<GameClient[]>([]);
 
   useEffect(() => {
-    fetch("http://localhost/v1/iam/clients")
+    fetch(`${Deno.env.get("BASE_URL")}/v1/iam/clients`)
       .then(async (res: Response) => await res.json())
       .then((json: SuccessResponse<GameClient[]>) => {
         console.log(json);
